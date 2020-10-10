@@ -21,7 +21,7 @@ contract MRC_ico {
         _;
     }
  
-    // Getting the equity in Hadcoins of an investor
+    // Getting the equity in MRC of an investor
     function equity_in_MRC(address investor) external constant returns (uint){
         return equity_MRC[investor];
     }
