@@ -1,0 +1,331 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MCR Wallet</title>
+    <style>
+      fieldset {
+        background-color: #eeeeee;
+      }
+
+      legend {
+        background-color: gray;
+        color: white;
+        padding: 5px 10px;
+      }
+
+      input {
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MCR Wallet</h1>
+    <div>
+      <h3>1 USD : 1000 MCR Coins</h3>
+      <h3>MCR Balance</h3>
+      <img src="mcr.png" alt="dollar" width="50" height="50" />
+      <h4 id="balance"></h4>
+      <h3>USD Invested in MCR</h3>
+      <img src="dollar_sign_PNG21539.png" alt="dollar" width="50" height="50" />
+      <h4 id="usdinvested"></h4>
+
+      <fieldset>
+        <legend>Buy MR Coins</legend>
+        <label for="phone">Enter the Amount in USD:</label><br /><br />
+        <input type="text" id="amount" placeholder="USD" /><br /><br />
+        <button id="BuyMRCoins">Buy</button><br /><br />
+      </fieldset>
+      <br /><br />
+      <fieldset>
+        <legend>Sell MR Coins</legend>
+        <label for="phone">Enter the No. of coins to Sell:</label><br /><br />
+        <input type="text" id="coins" placeholder="No. of Coins" /><br /><br />
+        <button id="SellMRCoins">Sell</button><br /><br />
+      </fieldset>
+      <br /><br />
+      <fieldset>
+        <legend>Transfer MR Coins</legend>
+        <input type="text" id="transfercoins" placeholder="No. of Coins" />
+        <input
+          type="text"
+          id="receiveraddress"
+          placeholder="Reciever's Wallet Address"
+        /><br /><br />
+        <button id="TransferMRCoins">Transfer MR Coins</button>
+      </fieldset>
+
+      <br /><br />
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      var contract;
+      $(document).ready(function () {
+        web3 = new Web3(web3.currentProvider);
+
+        var address = "0xC59fcC4de199D38fd82E53543D9bdd8E353c069F";
+        var investor = "0x0946DbaD23244BCE48fa4BF6eC5E384bD89CF359";
+        var abi = [
+          {
+            constant: true,
+            inputs: [
+              {
+                name: "investor",
+                type: "address",
+              },
+            ],
+            name: "equity_in_usd",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            type: "function",
+            stateMutability: "view",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "investor",
+                type: "address",
+              },
+              {
+                name: "hadcoins_sold",
+                type: "uint256",
+              },
+            ],
+            name: "sell_MRC",
+            outputs: [],
+            payable: false,
+            type: "function",
+            stateMutability: "nonpayable",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "total_hadcoins_bought",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            type: "function",
+            stateMutability: "view",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "investor",
+                type: "address",
+              },
+              {
+                name: "hadcoins_sold",
+                type: "uint256",
+              },
+              {
+                name: "reciever",
+                type: "address",
+              },
+            ],
+            name: "transfer_MRC",
+            outputs: [],
+            payable: false,
+            type: "function",
+            stateMutability: "nonpayable",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "usd_to_hadcoins",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            type: "function",
+            stateMutability: "view",
+          },
+          {
+            constant: true,
+            inputs: [
+              {
+                name: "investor",
+                type: "address",
+              },
+            ],
+            name: "equity_in_MRC",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            type: "function",
+            stateMutability: "view",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "investor",
+                type: "address",
+              },
+              {
+                name: "usd_invested",
+                type: "uint256",
+              },
+            ],
+            name: "buy_MRC",
+            outputs: [],
+            payable: false,
+            type: "function",
+            stateMutability: "nonpayable",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "max_hadcoins",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            type: "function",
+            stateMutability: "view",
+          },
+        ];
+        console.log("Yahatk153");
+        contract = new web3.eth.Contract(abi, address);
+        contract.methods
+          .equity_in_MRC(investor)
+          .call()
+          .then(function (bal) {
+            $("#balance").html(bal);
+            console.log(bal);
+          });
+        contract.methods
+          .equity_in_usd(investor)
+          .call()
+          .then(function (bal) {
+            $("#usdinvested").html(bal);
+            console.log(bal);
+          });
+
+        $("#BuyMRCoins").click(function () {
+          var amt = parseInt($("#amount").val());
+          console.log(amt);
+          web3.eth
+            .getAccounts()
+            .then(function (accounts) {
+              var acc = accounts[0];
+              return contract.methods
+                .buy_MRC(investor, amt)
+                .send({ from: acc });
+            })
+            .then(function (tx) {
+              console.log(tx);
+              contract.methods
+                .equity_in_MRC(investor)
+                .call()
+                .then(function (bal) {
+                  $("#balance").html(bal);
+                  console.log(bal);
+                });
+              contract.methods
+                .equity_in_usd(investor)
+                .call()
+                .then(function (bal) {
+                  $("#usdinvested").html(bal);
+                  console.log(bal);
+                });
+            })
+            .catch(function (tx) {
+              console.log(tx);
+            });
+        });
+
+        $("#SellMRCoins").click(function () {
+          var cns = parseInt($("#coins").val());
+          console.log(cns);
+          web3.eth
+            .getAccounts()
+            .then(function (accounts) {
+              var acc = accounts[0];
+              return contract.methods
+                .sell_MRC(investor, cns)
+                .send({ from: acc });
+            })
+            .then(function (tx) {
+              console.log(tx);
+              contract.methods
+                .equity_in_MRC(investor)
+                .call()
+                .then(function (bal) {
+                  $("#balance").html(bal);
+                  console.log(bal);
+                });
+              contract.methods
+                .equity_in_usd(investor)
+                .call()
+                .then(function (bal) {
+                  $("#usdinvested").html(bal);
+                  console.log(bal);
+                });
+            })
+            .catch(function (tx) {
+              console.log(tx);
+            });
+        });
+
+        $("#TransferMRCoins").click(function () {
+          var tcns = parseInt($("#transfercoins").val());
+          var rec = $("#receiveraddress").val();
+          console.log(rec);
+          web3.eth
+            .getAccounts()
+            .then(function (accounts) {
+              var acc = accounts[0];
+              return contract.methods
+                .transfer_MRC(investor, tcns, rec)
+                .send({ from: acc });
+            })
+            .then(function (tx) {
+              console.log(tx);
+              contract.methods
+                .equity_in_MRC(investor)
+                .call()
+                .then(function (bal) {
+                  $("#balance").html(bal);
+                  console.log(bal);
+                });
+              contract.methods
+                .equity_in_usd(investor)
+                .call()
+                .then(function (bal) {
+                  $("#usdinvested").html(bal);
+                  console.log(bal);
+                });
+            })
+            .catch(function (tx) {
+              console.log(tx);
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
