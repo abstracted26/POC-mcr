@@ -108,6 +108,7 @@
       var contract;
       $(document).ready(function () {
         web3 = new Web3(web3.currentProvider);
+        window.ethereum.enable();
         var abi = [
           {
             constant: false,
