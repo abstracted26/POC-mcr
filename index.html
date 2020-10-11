@@ -277,6 +277,13 @@
               $("#usdinvested").html(bal);
               console.log(bal);
             });
+          contract.methods
+            .total_MRC_bought()
+            .call()
+            .then(function (bal) {
+              $("#totalmrcbought").html(bal);
+              console.log(bal);
+            });
         });
 
         $("#BuyMRCoins").click(function () {
