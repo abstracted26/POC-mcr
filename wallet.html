@@ -6,6 +6,11 @@
       fieldset {
         background-color: #57748a69;
       }
+      table {
+        background-color: rgb(228, 104, 66);
+        width: 100%;
+        height: auto;
+      }
 
       legend {
         background-color: gray;
@@ -19,17 +24,39 @@
     </style>
   </head>
   <body>
-    <h1>MRC Wallet</h1>
+    <table cellspacing="60">
+      <tr>
+        <td><h1 style="font-size: 90">MRC Wallet</h1></td>
+        <td>
+          <h1 style="font-size: 40">
+            Total MRC in Circulation out of 1 Million:
+          </h1>
+          <h2 style="font-size: 30" id="totalmrcbought"></h2>
+          <h2 style="font-size: 40">1 USD : 1000 MR Coins</h2>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h1>MRC Balance</h1>
+          <img src="mcr.png" alt="dollar" width="50" height="50" />
+          <h2 style="font-size: 30" id="balance"></h2>
+        </td>
+        <td>
+          <h1>USD Invested in MRC</h1>
+          <img
+            src="dollar_sign_PNG21539.png"
+            alt="dollar"
+            width="50"
+            height="50"
+          />
+          <h2 style="font-size: 30" id="usdinvested"></h2>
+        </td>
+      </tr>
+    </table>
+
     <div>
-      <h2>Total MRC in Circulation out of 1 Million:</h2>
-      <h4 id="totalmrcbought"></h4>
-      <h3>1 USD : 1000 MRC Coins</h3>
-      <h3>MRC Balance</h3>
-      <img src="mcr.png" alt="dollar" width="50" height="50" />
-      <h4 id="balance"></h4>
-      <h3>USD Invested in MRC</h3>
-      <img src="dollar_sign_PNG21539.png" alt="dollar" width="50" height="50" />
-      <h4 id="usdinvested"></h4>
+      <hr />
+      <br /><br />
       <fieldset>
         <legend>Wallet Details</legend>
         <label for="phone">Enter Your Wallet Address:</label><br /><br />
@@ -249,13 +276,6 @@
               $("#usdinvested").html(bal);
               console.log(bal);
             });
-          contract.methods
-            .total_MRC_bought()
-            .call()
-            .then(function (bal) {
-              $("#totalmrcbought").html(bal);
-              console.log(bal);
-            });
         });
 
         $("#BuyMRCoins").click(function () {
@@ -283,6 +303,13 @@
                 .call()
                 .then(function (bal) {
                   $("#usdinvested").html(bal);
+                  console.log(bal);
+                });
+              contract.methods
+                .total_MRC_bought()
+                .call()
+                .then(function (bal) {
+                  $("#totalmrcbought").html(bal);
                   console.log(bal);
                 });
             })
@@ -318,6 +345,13 @@
                   $("#usdinvested").html(bal);
                   console.log(bal);
                 });
+              contract.methods
+                .total_MRC_bought()
+                .call()
+                .then(function (bal) {
+                  $("#totalmrcbought").html(bal);
+                  console.log(bal);
+                });
             })
             .catch(function (tx) {
               console.log(tx);
@@ -350,6 +384,13 @@
                 .call()
                 .then(function (bal) {
                   $("#usdinvested").html(bal);
+                  console.log(bal);
+                });
+              contract.methods
+                .total_MRC_bought()
+                .call()
+                .then(function (bal) {
+                  $("#totalmrcbought").html(bal);
                   console.log(bal);
                 });
             })
