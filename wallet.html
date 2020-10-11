@@ -19,17 +19,18 @@
     </style>
   </head>
   <body>
-    <h1>MCR Wallet</h1>
+    <h1>MRC Wallet</h1>
     <div>
-      <h3>1 USD : 1000 MCR Coins</h3>
-      <h3>MCR Balance</h3>
+      <h3>1 USD : 1000 MRC Coins</h3>
+      <h3>MRC Balance</h3>
       <img src="mcr.png" alt="dollar" width="50" height="50" />
       <h4 id="balance"></h4>
-      <h3>USD Invested in MCR</h3>
+      <h3>USD Invested in MRC</h3>
       <img src="dollar_sign_PNG21539.png" alt="dollar" width="50" height="50" />
       <h4 id="usdinvested"></h4>
       <fieldset>
-        <legend>Enter Your Wallet Address</legend>
+        <legend>Wallet Details</legend>
+        <label for="phone">Enter Your Wallet Address:</label><br /><br />
         <input
           type="text"
           id="UserAddress"
@@ -54,6 +55,9 @@
       <br /><br />
       <fieldset>
         <legend>Transfer MR Coins</legend>
+        <label for="phone"
+          >Enter the amount of MRC & Reciever's Wallet Address:</label
+        ><br /><br />
         <input type="text" id="transfercoins" placeholder="No. of Coins" />
         <input
           type="text"
