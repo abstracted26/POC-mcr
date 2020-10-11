@@ -29,6 +29,16 @@
       <img src="dollar_sign_PNG21539.png" alt="dollar" width="50" height="50" />
       <h4 id="usdinvested"></h4>
       <fieldset>
+        <legend>Enter Your Wallet Address</legend>
+        <input
+          type="text"
+          id="UserAddress"
+          placeholder="Your Address"
+        /><br /><br />
+        <button id="YourAddress">Refresh</button><br /><br />
+      </fieldset>
+      <br /><br />
+      <fieldset>
         <legend>Buy MR Coins</legend>
         <label for="phone">Enter the Amount in USD:</label><br /><br />
         <input type="text" id="amount" placeholder="USD" /><br /><br />
@@ -65,9 +75,6 @@
       var contract;
       $(document).ready(function () {
         web3 = new Web3(web3.currentProvider);
-
-        var address = "0x58504d703Ca1e37491A7E82c815c1EbE9b127954";
-        var investor = "0x0946DbaD23244BCE48fa4BF6eC5E384bD89CF359";
         var abi = [
           {
             constant: false,
@@ -208,22 +215,28 @@
             stateMutability: "view",
           },
         ];
-
+        var address = "0x58504d703Ca1e37491A7E82c815c1EbE9b127954";
         contract = new web3.eth.Contract(abi, address);
-        contract.methods
-          .equity_in_MRC(investor)
-          .call()
-          .then(function (bal) {
-            $("#balance").html(bal);
-            console.log(bal);
-          });
-        contract.methods
-          .equity_in_usd(investor)
-          .call()
-          .then(function (bal) {
-            $("#usdinvested").html(bal);
-            console.log(bal);
-          });
+        var investor;
+        //console.log(investor);
+        $("#YourAddress").click(function () {
+          var investor1 = $("#UserAddress").val();
+          investor = investor1;
+          contract.methods
+            .equity_in_MRC(investor)
+            .call()
+            .then(function (bal) {
+              $("#balance").html(bal);
+              console.log(bal);
+            });
+          contract.methods
+            .equity_in_usd(investor)
+            .call()
+            .then(function (bal) {
+              $("#usdinvested").html(bal);
+              console.log(bal);
+            });
+        });
 
         $("#BuyMRCoins").click(function () {
           var amt = parseInt($("#amount").val());
