@@ -21,6 +21,8 @@
   <body>
     <h1>MRC Wallet</h1>
     <div>
+      <h2>Total MRC in Circulation out of 1 Million:</h2>
+      <h4 id="totalmrcbought"></h4>
       <h3>1 USD : 1000 MRC Coins</h3>
       <h3>MRC Balance</h3>
       <img src="mcr.png" alt="dollar" width="50" height="50" />
@@ -223,6 +225,13 @@
         contract = new web3.eth.Contract(abi, address);
         var investor;
         //console.log(investor);
+        contract.methods
+          .total_MRC_bought()
+          .call()
+          .then(function (bal) {
+            $("#totalmrcbought").html(bal);
+            console.log(bal);
+          });
         $("#YourAddress").click(function () {
           var investor1 = $("#UserAddress").val();
           investor = investor1;
