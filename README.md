@@ -13,5 +13,5 @@ Step 4 : Repeat Step 2 & 3 again, So that you now have two Accounts.
 
 Step 5 : Open https://abstracted26.github.io/POC-mcr/ and You're good to go!
 
-Note: To use Buy, Sell and Transfer Functions [Contract State Altering Functions], You would need Some Ether. You can get then at https://faucet.rinkeby.io/ 
+Note: To use Buy, Sell and Transfer Functions [Contract State Altering Functions], You would need Some Ether. You can get them at https://faucet.rinkeby.io/ 
 
